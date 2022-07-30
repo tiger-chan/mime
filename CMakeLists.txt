@@ -34,6 +34,11 @@ include(GNUInstallDirs)
 add_library(
 	tcmime
 	STATIC
+		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/charset.cpp>
+		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
+		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
+		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
+		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_types.cpp>
 		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime.cpp>
 )
 add_library(tcmime::tcmime ALIAS tcmime)
@@ -52,6 +57,12 @@ if (TCM_INCLUDE_HEADERS)
 	target_sources(
 		tcmime
 		STATIC
+			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_details.hpp>
+			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/charset.cpp>
+			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
+			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
+			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
+			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_types.cpp>
 			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime.cpp>
 	)
 endif()
@@ -114,13 +125,6 @@ install(
 install(DIRECTORY src/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 export(PACKAGE tcmime)
-
-#
-# Compiler versions
-#
-message("[tcmime] ${CMAKE_CXX_COMPILER_ID}")
-message("[tcmime] ${CMAKE_CXX_COMPILER_VERSION}")
-message("[tcmime] ${CMAKE_CXX_STANDARD}")
 
 #
 # Tests

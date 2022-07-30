@@ -1,0 +1,12 @@
+#include <mime/mime_details.hpp>
+
+namespace mime {
+	namespace details {
+		const int32 charsets_size{ {{ charset | length }} };
+		const char *charsets[] = {
+
+		{%- for item in charset %}
+			"{{item}}",
+		{% endfor %}};
+	}    // namespace details
+}    // namespace mime

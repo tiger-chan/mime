@@ -1,0 +1,11 @@
+#include <mime/mime_details.hpp>
+
+namespace mime {
+	namespace details {
+		const int32 types_size{ {{types | length}} };
+		const char *types[] = {
+		{% for item in types -%}
+			"{{item.type}}",
+		{% endfor %}};
+	}
+}

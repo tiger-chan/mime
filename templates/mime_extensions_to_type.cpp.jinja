@@ -1,0 +1,11 @@
+#include <mime/mime_details.hpp>
+
+namespace mime {
+	namespace details {
+		const int32 ext_to_types_size{ {{ types | length }} };
+		const int ext_to_mime_types[] = {
+		{% for row in extensions | batch(15) -%}
+		{%+ for item in row -%} {{item.type}}, {% endfor %}
+		{% endfor %}};
+	}    // namespace details
+}    // namespace mime

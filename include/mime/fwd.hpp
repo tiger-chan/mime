@@ -1,9 +1,9 @@
 #if !defined(TCM_FWD_HPP__)
-#define TCM_FWD_HPP__
+#	define TCM_FWD_HPP__
 
-#include "config/macro.hpp"
+#	include "config/macro.hpp"
 
-namespace tcmime {
+namespace mime {
 	using uint8 = unsigned char;
 	using int32 = int;
 	using uint32 = unsigned int;
@@ -17,6 +17,6 @@ namespace tcmime {
 	static constexpr T max(const T &x, const T &y) {
 		return x > y ? x : y;
 	}
-}
+}    // namespace mime
 
-#endif // TCM_FWD_HPP__
+#endif    // TCM_FWD_HPP__

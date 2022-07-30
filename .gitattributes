@@ -1,0 +1,6 @@
+# Auto generated files
+src/mime/charset.cpp -diff
+src/mime/mime_extensions_to_type.cpp -diff
+src/mime/mime_extensions.cpp -diff
+src/mime/mime_type_to_extensions.cpp -diff
+src/mime/mime_types.cpp -diff

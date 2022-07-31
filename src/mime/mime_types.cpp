@@ -2,8 +2,8 @@
 
 namespace mime {
 	namespace details {
-		const int32 types_size{ 965 };
-		const char *types[] = {
+		const int32 default_types_size{ 965 };
+		const char *default_types[] = {
 		"application/andrew-inset",
 		"application/applixware",
 		"application/atom+xml",

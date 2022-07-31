@@ -84,3 +84,4 @@ endfunction()
 #
 
 SETUP_BASIC_TEST(Mime mime/mime.cpp)
+SETUP_BASIC_TEST(MimeSource mime/mime_source.cpp)

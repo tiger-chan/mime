@@ -2,8 +2,8 @@
 
 namespace mime {
 	namespace details {
-		const int32 extensions_size{ 965 };
-		const char *extensions[] = {
+		const int32 default_extensions_size{ 965 };
+		const char *default_extensions[] = {
 		"123", "1km", "3dml", "3ds", "3g2", "3gp", "3gpp", "3gpp", "3mf", "7z", 
 		"aab", "aac", "aam", "aas", "abw", "ac", "ac", "acc", "ace", "acu", 
 		"acutc", "adp", "aep", "afm", "afp", "age", "ahead", "ai", "aif", "aifc", 

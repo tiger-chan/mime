@@ -13,8 +13,8 @@ namespace {
 
 namespace mime {
 	namespace details {
-		const int32 types_to_ext_size{ {{ types | length }} };
-		const mime_ext types_to_ext[] = {
+		const int32 default_types_to_ext_size{ {{ types | length }} };
+		const mime_ext default_types_to_ext[] = {
 		{% for item in types -%}
 			{ ::{{item.name}}, ::length_of(::{{item.name}}) },
 		{% endfor %}};

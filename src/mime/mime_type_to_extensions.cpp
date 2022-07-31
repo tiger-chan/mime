@@ -976,8 +976,8 @@ namespace {
 
 namespace mime {
 	namespace details {
-		const int32 types_to_ext_size{ 965 };
-		const mime_ext types_to_ext[] = {
+		const int32 default_types_to_ext_size{ 965 };
+		const mime_ext default_types_to_ext[] = {
 		{ ::application_andrew_minus_inset, ::length_of(::application_andrew_minus_inset) },
 		{ ::application_applixware, ::length_of(::application_applixware) },
 		{ ::application_atom_plus_xml, ::length_of(::application_atom_plus_xml) },

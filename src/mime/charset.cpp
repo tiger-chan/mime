@@ -2,8 +2,8 @@
 
 namespace mime {
 	namespace details {
-		const int32 charsets_size{ 1 };
-		const char *charsets[] = {
+		const int32 default_charsets_size{ 1 };
+		const char *default_charsets[] = {
 			"UTF-8",
 		};
 	}    // namespace details

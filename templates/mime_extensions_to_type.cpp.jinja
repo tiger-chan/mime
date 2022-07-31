@@ -2,8 +2,8 @@
 
 namespace mime {
 	namespace details {
-		const int32 ext_to_types_size{ {{ types | length }} };
-		const int ext_to_mime_types[] = {
+		const int32 default_ext_to_types_size{ {{ types | length }} };
+		const int default_ext_to_types[] = {
 		{% for row in extensions | batch(15) -%}
 		{%+ for item in row -%} {{item.type}}, {% endfor %}
 		{% endfor %}};

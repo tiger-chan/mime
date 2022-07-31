@@ -2,8 +2,8 @@
 
 namespace mime {
 	namespace details {
-		const int32 ext_to_types_size{ 965 };
-		const int ext_to_mime_types[] = {
+		const int32 default_ext_to_types_size{ 965 };
+		const int default_ext_to_types[] = {
 		327, 152, 894, 803, 924, 923, 684, 923, 829, 537, 542, 710, 543, 544, 538, 
 		96, 390, 172, 539, 160, 161, 685, 186, 576, 290, 167, 168, 102, 711, 711, 
 		711, 162, 226, 173, 686, 174, 736, 858, 600, 328, 577, 541, 89, 90, 955, 

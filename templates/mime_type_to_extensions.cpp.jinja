@@ -1,0 +1,22 @@
+#include <mime/mime_details.hpp>
+
+namespace {
+	template<typename T, mime::uint32 Size>
+	constexpr mime::int32 length_of(T (&)[Size]) {
+		return mime::int32(Size);
+	}
+
+	{% for item in types -%}
+	static constexpr int {{item.name}}[] = { {%+ for ext in item.extensions -%}{{ext}}, {% endfor %} };
+	{% endfor %}
+}    // namespace
+
+namespace mime {
+	namespace details {
+		const int32 default_types_to_ext_size{ {{ types | length }} };
+		const mime_ext default_types_to_ext[] = {
+		{% for item in types -%}
+			{ ::{{item.name}}, ::length_of(::{{item.name}}) },
+		{% endfor %}};
+	}    // namespace details
+}    // namespace mime

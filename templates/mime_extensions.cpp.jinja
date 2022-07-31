@@ -1,0 +1,11 @@
+#include <mime/mime_details.hpp>
+
+namespace mime {
+	namespace details {
+		const int32 default_extensions_size{ {{ types | length }} };
+		const char *default_extensions[] = {
+		{% for row in extensions | batch(10) -%}
+			{%- for item in row -%} "{{item.value}}", {% endfor %}
+		{% endfor %}};
+	}    // namespace details
+}    // namespace mime

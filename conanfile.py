@@ -11,8 +11,8 @@ class MimeConan(ConanFile):
     author = "Anthony Young <anthony.r.young@gmail.com>"
     url = "https://github.com/tiger-chan/mime"
     homepage = url
-    description = "Small C++ lib for mime-type retrieval"
-    topics = ("string")
+    description = "Small C++ library for mime type identification using file extensions"
+    topics = ("mime")
     settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
@@ -65,7 +65,7 @@ class MimeConan(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["tcmime"]
+        self.cpp_info.libs = ["mime"]
 
-        self.cpp_info.names["cmake_find_package"] = "tcmime"
-        self.cpp_info.names["cmake_find_package_multi"] = "tcmime"
+        self.cpp_info.names["cmake_find_package"] = "mime"
+        self.cpp_info.names["cmake_find_package_multi"] = "mime"

@@ -34,13 +34,13 @@ else()
 	target_compile_features(gmock_main PUBLIC cxx_std_17)
 endif()
 
-include_directories($<TARGET_PROPERTY:tcmime,INTERFACE_INCLUDE_DIRECTORIES>)
-add_compile_options($<TARGET_PROPERTY:tcmime,INTERFACE_COMPILE_OPTIONS>)
+include_directories($<TARGET_PROPERTY:mime,INTERFACE_INCLUDE_DIRECTORIES>)
+add_compile_options($<TARGET_PROPERTY:mime,INTERFACE_COMPILE_OPTIONS>)
 
 function(SETUP_TARGET TARGET_NAME)
     set_target_properties(${TARGET_NAME} PROPERTIES CXX_EXTENSIONS OFF)
     target_compile_features(${TARGET_NAME} PRIVATE ${TCM_CXX_STD})
-    target_link_libraries(${TARGET_NAME} PRIVATE tcmime)
+    target_link_libraries(${TARGET_NAME} PRIVATE mime)
 
     if(MSVC)
         target_compile_options(

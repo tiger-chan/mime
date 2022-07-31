@@ -15,11 +15,11 @@ namespace mime {
 		const int32 types_size{ 0 };
 		const char **types{ nullptr };
 
-		const int32 charsets_size{ 0 };
-		const char **charsets{ nullptr };
-
 		const int32 extensions_size{ 0 };
 		const char **extensions{ nullptr };
+
+		const int32 charsets_size{ 0 };
+		const char **charsets{ nullptr };
 
 		const int32 ext_to_types_size{ 0 };
 		const int *ext_to_types{ nullptr };

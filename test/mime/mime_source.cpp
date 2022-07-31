@@ -3,8 +3,30 @@
 
 class MimeSourceSuite : public ::testing::Test {
 public:
-	MimeSourceSuite()
-		: mime_src{new mime::source{
+	MimeSourceSuite() {
+	}
+
+	virtual ~MimeSourceSuite() {
+	}
+
+	void SetUp() override {
+		mime::set_source(get_source());
+	}
+
+	void TearDown() override {
+		mime::set_source(nullptr);
+	}
+
+	mime::source *mime_src;
+
+	static const mime::source *get_source() {
+		static const char *types[] = { "custom/real" };
+		static const char *ext[] = { "custom" };
+		static const int ext_to_types[] = { 0 };
+		static const int ext_mapped[] = { 0 };
+		static const mime::mime_ext types_to_ext[] = { { ext_mapped, sizeof(ext_mapped) / sizeof(ext_mapped[0]) } };
+
+		static const mime::source src{
 			sizeof(types) / sizeof(types[0])    // types_size
 			, types    // types
 			, sizeof(ext) / sizeof(ext[0])    // extensions_size
@@ -15,28 +37,10 @@ public:
 			, ext_to_types    // ext_to_types
 			, sizeof(types_to_ext) / sizeof(types_to_ext[0])    // types_to_ext_size
 			, types_to_ext    // types_to_ext
-		}} {
+		};
+
+		return &src;
 	}
-
-	virtual ~MimeSourceSuite() {
-	}
-
-	void SetUp() override {
-		mime::set_source(mime_src);
-	}
-
-	void TearDown() override {
-		mime::set_source(nullptr);
-		delete mime_src;
-	}
-
-	mime::source *mime_src;
-
-	inline static const char *types[] = { "custom/real" };
-	inline static const char *ext[] = { "custom" };
-	inline static const int ext_to_types[] = { 0 };
-	inline static const int ext_mapped[] = { 0 };
-	inline static const mime::mime_ext types_to_ext[] = { { ext_mapped, sizeof(ext_mapped) / sizeof(ext_mapped[0]) } };
 };
 
 // from_type

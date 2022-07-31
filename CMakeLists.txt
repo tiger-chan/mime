@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.12.4)
 set (TCM_VERSION "0.1.0")
 
 project(
-	tcmime
+	mime
 	VERSION ${TCM_VERSION}
 	DESCRIPTION "Small C++ lib for mime-type retrieval"
 	HOMEPAGE_URL "https://github.com/tiger-chan/mime"
@@ -32,57 +32,57 @@ option(TCM_INCLUDE_HEADERS "Add all Mime headers to the Mime target." OFF)
 include(GNUInstallDirs)
 
 add_library(
-	tcmime
+	mime
 	STATIC
-		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/charset.cpp>
-		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
-		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
-		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
-		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_types.cpp>
-		$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/charset.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_types.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime.cpp>
 )
-add_library(tcmime::tcmime ALIAS tcmime)
+add_library(mime::mime ALIAS mime)
 
 target_include_directories(
-	tcmime
+	mime
 	PUBLIC
 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 		$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_compile_features(tcmime PUBLIC cxx_std_17)
+target_compile_features(mime PUBLIC cxx_std_17)
 
 if (TCM_INCLUDE_HEADERS)
 	target_sources(
-		tcmime
+		mime
 		STATIC
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_details.hpp>
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/charset.cpp>
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime_types.cpp>
-			$<BUILD_INTERFACE:${tcmime_SOURCE_DIR}/src/mime/mime.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_details.hpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/charset.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_types.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime.cpp>
 	)
 endif()
 
 #
-# Install tcmime
+# Install mime
 #
 
 include(CMakePackageConfigHelpers)
 
 install(
-	TARGETS tcmime
-	EXPORT tcmimeTargets
+	TARGETS mime
+	EXPORT mimeTargets
 		ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 		LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
 install(
-	DIRECTORY include/tcmime src/tcmime ${PROJECT_BINARY_DIR}/include/tcmime
+	DIRECTORY include/mime src/mime ${PROJECT_BINARY_DIR}/include/mime
 	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 	FILES_MATCHING
 		PATTERN "*.h"
@@ -91,40 +91,40 @@ install(
 )
 
 write_basic_package_version_file(
-	tcmimeConfigVersion.cmake
+	mimeConfigVersion.cmake
 	VERSION ${PROJECT_VERSION}
 	COMPATIBILITY SameMajorVersion
 )
 
 configure_package_config_file(
-	${tcmime_SOURCE_DIR}/cmake/in/tcmimeConfig.cmake.in
-    tcmimeConfig.cmake
+	${mime_SOURCE_DIR}/cmake/in/mimeConfig.cmake.in
+    mimeConfig.cmake
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/mime/cmake
 )
 
 export(
-	EXPORT tcmimeTargets
-	FILE ${CMAKE_CURRENT_BINARY_DIR}/tcmimeTargets.cmake
-	NAMESPACE tcmime::
+	EXPORT mimeTargets
+	FILE ${CMAKE_CURRENT_BINARY_DIR}/mimeTargets.cmake
+	NAMESPACE mime::
 )
 
 install(
-    EXPORT tcmimeTargets
-    FILE tcmimeTargets.cmake
+    EXPORT mimeTargets
+    FILE mimeTargets.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/mime/cmake
-    NAMESPACE tcmime::
+    NAMESPACE mime::
 )
 
 install(
     FILES
-        ${PROJECT_BINARY_DIR}/tcmimeConfig.cmake
-        ${PROJECT_BINARY_DIR}/tcmimeConfigVersion.cmake
+        ${PROJECT_BINARY_DIR}/mimeConfig.cmake
+        ${PROJECT_BINARY_DIR}/mimeConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/mime/cmake
 )
 
 install(DIRECTORY src/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-export(PACKAGE tcmime)
+export(PACKAGE mime)
 
 #
 # Tests

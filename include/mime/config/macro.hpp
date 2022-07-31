@@ -20,9 +20,9 @@
 #endif
 
 #ifndef TCM_API
-#	if defined tcmime_EXPORT
+#	if defined mime_EXPORT
 #		define TCM_API TCM_EXPORT
-#	elif defined tcmime_IMPORT
+#	elif defined mime_IMPORT
 #		define TCM_API TCM_IMPORT
 #	else /* No API */
 #		define TCM_API

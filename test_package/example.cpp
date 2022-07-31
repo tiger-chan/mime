@@ -1,5 +1,6 @@
 #include <mime/mime.hpp>
 
 int main() {
-	mime::get_extension_type("Hello", 0, nullptr);
+	const mime::mime_ext *ptr = nullptr;
+	auto result = mime::from_type("image/jpeg", &ptr);
 }

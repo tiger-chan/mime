@@ -37,6 +37,7 @@ add_library(
 		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/charset.cpp>
 		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
 		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
+		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_type_to_charset.cpp>
 		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
 		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_types.cpp>
 		$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime.cpp>
@@ -61,6 +62,7 @@ if (TCM_INCLUDE_HEADERS)
 			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/charset.cpp>
 			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions_to_type.cpp>
 			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_extensions.cpp>
+			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_type_to_charset.cpp>
 			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_type_to_extensions.cpp>
 			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime_types.cpp>
 			$<BUILD_INTERFACE:${mime_SOURCE_DIR}/src/mime/mime.cpp>

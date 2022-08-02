@@ -14,7 +14,9 @@ namespace {
 			mime::details::default_ext_to_types_size,
 			mime::details::default_ext_to_types,
 			mime::details::default_types_to_ext_size,
-			mime::details::default_types_to_ext
+			mime::details::default_types_to_ext,
+			mime::details::default_types_to_charset_size,
+			mime::details::default_types_to_charset,
 		};
 
 		return &src;
@@ -47,6 +49,18 @@ namespace mime {
 				}
 
 				return cmp(*lhs, *rhs);
+			}
+
+			constexpr const char *strrchr(const char *str, char ch) {
+				const char *end = str;
+				const char *f = nullptr;
+				for (; *end != '\0'; ++end) {
+					if (*end == ch) {
+						f = end;
+					}
+				}
+
+				return f;
 			}
 		}    // namespace str
 
@@ -81,7 +95,21 @@ namespace mime {
 			return false;
 		}
 
-		mime_result from_type(const char *type, const source *src, const mime_ext **dst) {
+		mime_result charset(const char *type, const source *src, const char **dst) {
+			int32 id;
+			if (src->types && bin_search(type, src->types, src->types_size, &id)) {
+				int32 charset = src->types_to_charset[id];
+				if (charset != UNSET_CHARSET) {
+					*dst = src->charsets[charset];
+					return MIME_SUCCESS;
+				}
+			}
+
+			*dst = nullptr;
+			return MIME_NO_MATCH;
+		}
+
+		mime_result extension(const char *type, const source *src, const mime_ext **dst) {
 			int32 id;
 			if (src->types && bin_search(type, src->types, src->types_size, &id)) {
 				*dst = src->types_to_ext + id;
@@ -92,9 +120,9 @@ namespace mime {
 			return MIME_NO_MATCH;
 		}
 
-		mime_result from_type(const char *type, int32 index, const source *src, const char **dst) {
+		mime_result extension(const char *type, int32 index, const source *src, const char **dst) {
 			const mime_ext *exts = nullptr;
-			auto result = from_type(type, src, &exts);
+			auto result = extension(type, src, &exts);
 			if (result == MIME_SUCCESS) {
 				if (index < exts->size) {
 					auto ext_id = exts->extensions[index];
@@ -110,7 +138,7 @@ namespace mime {
 			return MIME_NO_MATCH;
 		}
 
-		mime_result from_ext(const char *extensions, const source *src, const char **dst) {
+		mime_result type(const char *extensions, const source *src, const char **dst) {
 			int32 id;
 			if (src->extensions && bin_search(extensions, src->extensions, src->extensions_size, &id)) {
 				auto &mime_type = src->ext_to_types[id];
@@ -121,42 +149,123 @@ namespace mime {
 			*dst = nullptr;
 			return MIME_NO_MATCH;
 		}
+
+		constexpr const char *find_extension(const char *str) {
+			const char *sub_str = str::strrchr(str, '/');
+			if (sub_str) {
+				str = sub_str + 1;
+			}
+			else {
+				sub_str = str::strrchr(str, '\\');
+				if (sub_str) {
+					str = sub_str + 1;
+				}
+			}
+
+			sub_str = str::strrchr(str, '.');
+			if (str == sub_str) {
+				// prevent hidden files from being considered an extension e.g., folder/.filename
+				return nullptr;
+			}
+
+			return sub_str ? sub_str + 1 : nullptr;
+		}
+
+		mime_result type_index(const char *type, const source *src, int32 *dst) {
+			if (src->types && bin_search(type, src->types, src->types_size, dst)) {
+				return MIME_SUCCESS;
+			}
+			return MIME_NO_MATCH;
+		}
 	}    // namespace details
 
 	void set_source(const source *type) {
 		primary_src = type;
 	}
 
-	mime_result from_type(const char *type, int32 index, const char **dst) {
+	mime_result charset(const char *type, const char **dst) {
 		if (auto src = ::primary_source()) {
-			auto result = details::from_type(type, index, src, dst);
+			auto result = details::charset(type, src, dst);
 			if (result == MIME_SUCCESS) {
 				return MIME_SUCCESS;
 			}
 		}
 
-		return details::from_type(type, index, ::default_source(), dst);
+		return details::charset(type, ::default_source(), dst);
 	}
 
-	mime_result from_type(const char *type, const mime_ext **dst) {
+	mime_result extension(const char *type, int32 index, const char **dst) {
 		if (auto src = ::primary_source()) {
-			auto result = details::from_type(type, src, dst);
+			auto result = details::extension(type, index, src, dst);
 			if (result == MIME_SUCCESS) {
 				return MIME_SUCCESS;
 			}
 		}
 
-		return details::from_type(type, ::default_source(), dst);
+		return details::extension(type, index, ::default_source(), dst);
 	}
 
-	mime_result from_ext(const char *extensions, const char **dst) {
+	mime_result type(const char *extensions, const char **dst) {
 		if (auto src = ::primary_source()) {
-			auto result = details::from_ext(extensions, src, dst);
+			auto result = details::type(extensions, src, dst);
 			if (result == MIME_SUCCESS) {
 				return MIME_SUCCESS;
 			}
 		}
 
-		return details::from_ext(extensions, ::default_source(), dst);
+		return details::type(extensions, ::default_source(), dst);
+	}
+
+	mime_result typef(const char *file, const char **dst) {
+		if (auto ext = details::find_extension(file)) {
+			return type(ext, dst);
+		}
+
+		return MIME_NO_FILE_EXT;
+	}
+
+	mime_result content_type(const char *type, char *write_to, int32 *written_size) {
+		// find index of type
+		// using index get type string
+		// using index get charset string
+		const char *set;
+		charset(type, &set);
+
+		// format as defined by
+		// https://datatracker.ietf.org/doc/html/rfc2045#section-5.1
+		// https://datatracker.ietf.org/doc/html/rfc2046#section-4.1.2
+		// e.g. if charset is present "Content-Type:{type}; charset={char_set}" otherwise "Content-Type:{type}"
+		const char *cursor = "Content-Type: ";
+		int32 count = 0;
+		for (; *cursor != '\0'; ++cursor, ++write_to, ++count) {
+			*write_to = *cursor;
+		}
+
+		cursor = type;
+		for (; *cursor != '\0'; ++cursor, ++write_to, ++count) {
+			*write_to = *cursor;
+		}
+
+		if (set) {
+			cursor = "; charset=";
+			for (; *cursor != '\0'; ++cursor, ++write_to, ++count) {
+				*write_to = *cursor;
+			}
+
+			cursor = set;
+			for (; *cursor != '\0'; ++cursor, ++write_to, ++count) {
+				*write_to = *cursor;
+			}
+			*write_to = '\0';
+		}
+		else {
+			*write_to = '\0';
+		}
+
+		if (written_size != nullptr) {
+			*written_size = count;
+		}
+
+		return MIME_SUCCESS;
 	}
 }    // namespace mime

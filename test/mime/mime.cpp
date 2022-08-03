@@ -43,9 +43,17 @@ TEST(Mime, from_ext_does_not_exists) {
 // content_type
 
 TEST(Mime, content_type_no_charset) {
-	char buffer[50]{};
+	char buffer[25]{};
 	int written{0};
 	auto result = mime::content_type("image/jpeg", buffer, &written);
 	ASSERT_EQ(mime::MIME_SUCCESS, result);
 	ASSERT_STREQ(buffer, "Content-Type: image/jpeg");
+}
+
+TEST(Mime, content_type_with_charset) {
+	char buffer[52]{};
+	int written{0};
+	auto result = mime::content_type("application/javascript", buffer, &written);
+	ASSERT_EQ(mime::MIME_SUCCESS, result);
+	ASSERT_STREQ(buffer, "Content-Type: application/javascript; charset=utf-8");
 }

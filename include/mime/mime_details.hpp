@@ -9,8 +9,9 @@ namespace mime {
 		int32 size;
 	};
 
+	static const int32 UNSET_CHARSET = -1;
+
 	namespace details {
-		static const int32 UNSET_CHARSET = -1;
 		extern const int32 default_ext_to_types_size;
 		extern const int default_ext_to_types[];
 

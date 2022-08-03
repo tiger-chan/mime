@@ -1,4 +1,5 @@
 #include <mime/mime.hpp>
+#include <cctype>
 
 namespace {
 	static const mime::source *primary_src{ nullptr };
@@ -254,7 +255,7 @@ namespace mime {
 
 			cursor = set;
 			for (; *cursor != '\0'; ++cursor, ++write_to, ++count) {
-				*write_to = *cursor;
+				*write_to = char(tolower(*cursor));
 			}
 			*write_to = '\0';
 		}

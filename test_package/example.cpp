@@ -1,6 +1,6 @@
 #include <mime/mime.hpp>
 
 int main() {
-	const mime::mime_ext *ptr = nullptr;
-	auto result = mime::from_type("image/jpeg", &ptr);
+	const char *ptr = nullptr;
+	auto result = mime::extension("image/jpeg", 0, &ptr);
 }

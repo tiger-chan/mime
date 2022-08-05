@@ -75,7 +75,7 @@ import os
 template_loader = jinja2.FileSystemLoader(os.path.join(os.path.curdir, "templates"))
 env = jinja2.Environment(loader=template_loader)
 
-for name in ["charset.cpp", "mime_extensions_to_type.cpp", "mime_extensions.cpp", "mime_type_to_extensions.cpp", "mime_types.cpp"]:
+for name in ["charset.cpp", "mime_extensions_to_type.cpp", "mime_extensions.cpp", "mime_type_to_charset.cpp", "mime_type_to_extensions.cpp", "mime_types.cpp"]:
 	template = env.get_template(name + ".jinja")
 	rendered = template.render(types=mime_map, extensions=ext_map, charset=charset)
 	with open(os.path.join(os.path.curdir, "src", "mime", name), mode="w") as message:

@@ -1,0 +1,12 @@
+#include <mime/mime_details.hpp>
+
+namespace mime {
+	namespace details {
+		const int32 default_types_to_charset_size{ {{ types | length }} };
+		
+		const int default_types_to_charset[] = {
+		{% for row in types | batch(5) -%}
+		{%+ for item in row -%} {% if not item.charset is none %}{{item.charset}}{% else %}UNSET_CHARSET{% endif %}, {% endfor %}
+		{% endfor %}};
+	}    // namespace details
+}    // namespace mime

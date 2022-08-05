@@ -9,12 +9,14 @@ namespace mime {
 		int32 size;
 	};
 
+	static const int32 UNSET_CHARSET = -1;
+
 	namespace details {
 		extern const int32 default_ext_to_types_size;
 		extern const int default_ext_to_types[];
 
 		extern const int32 default_charsets_size;
-		extern const char * default_charsets[];
+		extern const char *default_charsets[];
 
 		extern const int32 default_extensions_size;
 		extern const char *default_extensions[];
@@ -24,6 +26,9 @@ namespace mime {
 
 		extern const int32 default_types_to_ext_size;
 		extern const mime_ext default_types_to_ext[];
+
+		extern const int32 default_types_to_charset_size;
+		extern const int default_types_to_charset[];
 	}    // namespace details
 }    // namespace mime
 
